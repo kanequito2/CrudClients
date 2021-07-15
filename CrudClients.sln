@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudClients", "CrudClients.csproj", "{1FDBCF66-3BAA-4131-8986-20E71FC4E62D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudClientsTest", "..\CrudClientsTest\CrudClientsTest.csproj", "{E74DED54-27DC-4405-87AB-A77975DE8818}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FDBCF66-3BAA-4131-8986-20E71FC4E62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FDBCF66-3BAA-4131-8986-20E71FC4E62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FDBCF66-3BAA-4131-8986-20E71FC4E62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FDBCF66-3BAA-4131-8986-20E71FC4E62D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E74DED54-27DC-4405-87AB-A77975DE8818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E74DED54-27DC-4405-87AB-A77975DE8818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E74DED54-27DC-4405-87AB-A77975DE8818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E74DED54-27DC-4405-87AB-A77975DE8818}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB14D3BA-DD22-4DDB-858C-A0B66CAB6D13}
+	EndGlobalSection
+EndGlobal
