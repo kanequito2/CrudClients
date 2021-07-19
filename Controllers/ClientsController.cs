@@ -78,7 +78,7 @@ namespace CrudClients.Controllers
         }
 
         [HttpDelete]
-        [Route("Delete/{id}")]
+        [Route("{id}")]
         [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
         [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
         [ProducesResponseType(404, Type = typeof(ResponseModel<Client>))]
@@ -100,7 +100,7 @@ namespace CrudClients.Controllers
         }
 
         [HttpPost]
-        [Route("Insert")]
+        [Route("")]
         [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
         [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
         [ProducesResponseType(500, Type = typeof(ResponseModel<Client>))]
@@ -125,7 +125,7 @@ namespace CrudClients.Controllers
         }
 
         [HttpPatch]
-        [Route("Update/{id}")]
+        [Route("{id}")]
         [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
         [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
         [ProducesResponseType(400, Type = typeof(ResponseModel<UpdateFieldsModel>))]
@@ -155,7 +155,7 @@ namespace CrudClients.Controllers
         }
 
         [HttpPut]
-        [Route("Push")]
+        [Route("")]
         [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
         [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
         public async Task<IActionResult> PushClient([FromBody] Client client)

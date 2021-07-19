@@ -24,14 +24,20 @@ namespace CrudClients
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var settings = new CrudAppSettings();
+            Configuration.GetSection("CrudAppSettings").Bind(settings);
+
             services.AddControllers(options =>
             {
                 options.AllowEmptyInputInBodyModelBinding = true;
             }).AddNewtonsoftJson();
-            services.AddScoped<IClientUseCase,ClientUseCase>();
-            services.AddScoped<IClientRepository,ClientRepository>();
-            services.AddSingleton<IContext>(new MongoContext(@"mongodb://localhost:27017","CrudClients"));
-            
+            services.AddScoped<IClientUseCase, ClientUseCase>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddSingleton<IContext>(new MongoContext(
+                settings.ConnectionString, settings.Database, settings.Collection
+                ));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +69,7 @@ namespace CrudClients
                 endpoints.MapControllers();
             });
 
-            
+
         }
     }
 }

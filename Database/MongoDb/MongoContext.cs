@@ -13,11 +13,11 @@ namespace CrudClients.Database.MongoDb
         private readonly MongoClient Client;
         private readonly IMongoDatabase Database;
         private readonly IMongoCollection<Client> Collection;
-        public MongoContext(string connectionString, string dbName)
+        public MongoContext(string connectionString, string dbName, string collectionName)
         {
             Client = new MongoClient(connectionString);
             Database = Client.GetDatabase(dbName);
-            Collection = Database.GetCollection<Client>("clients");
+            Collection = Database.GetCollection<Client>(collectionName);
         }
 
         public async Task<List<Client>> GetClients()
