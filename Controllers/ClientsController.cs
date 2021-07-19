@@ -27,149 +27,144 @@ namespace CrudClients.Controllers
 
         [HttpGet]
         [Route("")]
-        [ProducesResponseType(200, Type = typeof(ResponseModel<IEnumerable<Client>>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Client>))]
         public async Task<IActionResult> GetClients()
         {
-            var clients = await manager.GetClients();
+            try
+            {
+                var clients = await manager.GetClients();
 
-            var message = $"Found {clients.Count} clients.";
-
-            return Ok(ResponseModel<IEnumerable<Client>>.New((int)HttpStatusCode.OK, message, clients));
+                return Ok(clients);
+            }
+            catch
+            {
+                return StatusCode(500, null);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(404, Type = typeof(ResponseModel<Client>))]
+        [ProducesResponseType(200, Type = typeof(Client))]
+        [ProducesResponseType(400, Type = typeof(Client))]
+        [ProducesResponseType(404, Type = typeof(Client))]
         public async Task<IActionResult> GetClientById(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
-                return BadRequest(ResponseModel<Client>.New((int)HttpStatusCode.BadRequest, "Id must be provided and cannot be empty", null));
+                return BadRequest(null);
             }
 
             var client = await manager.GetClientById(id);
 
             if (client == null)
             {
-                return NotFound(ResponseModel<Client>.New((int)HttpStatusCode.NotFound, $"No client found with id: '{id}'.", client));
+                return NotFound(client);
             }
 
-            return Ok(ResponseModel<Client>.New((int)HttpStatusCode.OK, $"The following client was found.", client));
+            return Ok(client);
         }
 
         [HttpGet]
         [Route("SortedByAge")]
-        [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Client>))]
         public async Task<IActionResult> GetClientsSortedByAge()
         {
             var clients = await manager.GetClientsSortedByAge();
-            string message;
-            if(clients.Count > 0)
-            {
-                message = $"Found {clients.Count} clients.";
-            }
-            else
-            {
-                message = "No clients found.";
-            }
-            return Ok(ResponseModel<IEnumerable<Client>>.New((int)HttpStatusCode.OK, message, clients));
+
+            return Ok(clients);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(404, Type = typeof(ResponseModel<Client>))]
+        [ProducesResponseType(200, Type = typeof(Client))]
+        [ProducesResponseType(400, Type = typeof(Client))]
+        [ProducesResponseType(404, Type = typeof(Client))]
         public async Task<IActionResult> DeleteClientById(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
-                return BadRequest(ResponseModel<Client>.New((int)HttpStatusCode.BadRequest, "Id must be provided and cannot be empty", null));
+                return BadRequest(null);
             }
 
             var client = await manager.DeleteClientById(id);
 
             if (client == null)
             {
-                return NotFound(ResponseModel<Client>.New((int)HttpStatusCode.NotFound, $"No client found with id: '{id}'.", client));
+                return NotFound(client);
             }
 
-            return Ok(ResponseModel<Client>.New((int)HttpStatusCode.OK, $"The following client was deleted.", client));
+            return Ok(client);
         }
 
         [HttpPost]
         [Route("")]
-        [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(500, Type = typeof(ResponseModel<Client>))]
+        [ProducesResponseType(200, Type = typeof(Client))]
+        [ProducesResponseType(400, Type = typeof(Client))]
+        [ProducesResponseType(500, Type = typeof(Client))]
         public async Task<IActionResult> InsertClient([FromBody] Client client)
         {
             if (!ValidateClient(client))
             {
-                return BadRequest(ResponseModel<Client>.New((int)HttpStatusCode.BadRequest, $"The client has invalid fields.", client));
+                return BadRequest(null);
             }
 
             var response = await manager.InsertClient(client);
 
             if (response == null)
             {
-                return Ok(ResponseModel<Client>.New((int)HttpStatusCode.OK, $"Client has been inserted.", client));
+                return Ok(client);
             }
             else
             {
-                return StatusCode(500, ResponseModel<Client>.New((int)HttpStatusCode.InternalServerError, $"Client already exists.", client));
+                return StatusCode(500, null);
             }
 
         }
 
         [HttpPatch]
         [Route("{id}")]
-        [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(400, Type = typeof(ResponseModel<UpdateFieldsModel>))]
+        [ProducesResponseType(200, Type = typeof(Client))]
+        [ProducesResponseType(400, Type = typeof(Client))]
+        [ProducesResponseType(400, Type = typeof(UpdateFieldsModel))]
         public async Task<IActionResult> UpdateClient(string id, [FromBody] UpdateFieldsModel fields)
         {
 
             if (!ValidateUpdate(fields))
             {
-                return BadRequest(ResponseModel<UpdateFieldsModel>.New((int)HttpStatusCode.BadRequest, $"Error reading fields to update", fields));
+                return BadRequest(null);
             }
 
             var client = await manager.GetClientById(id);
 
             if (client == null)
             {
-                return NotFound(ResponseModel<Client>.New((int)HttpStatusCode.NotFound, $"No client found with id: '{id}'.", client));
+                return NotFound(null);
             }
 
             var response = await manager.UpdateClient(client, fields);
 
             if (response == null)
             {
-                return Ok(ResponseModel<Client>.New((int)HttpStatusCode.OK, $"Client found but was not modified.", client));
+                return Ok(client);
             }
 
-            return Ok(ResponseModel<Client>.New((int)HttpStatusCode.OK, $"The client has been modified as follows", response));
+            return Ok(response);
         }
 
         [HttpPut]
         [Route("")]
-        [ProducesResponseType(200, Type = typeof(ResponseModel<Client>))]
-        [ProducesResponseType(400, Type = typeof(ResponseModel<Client>))]
+        [ProducesResponseType(200, Type = typeof(Client))]
+        [ProducesResponseType(400, Type = typeof(Client))]
         public async Task<IActionResult> PushClient([FromBody] Client client)
         {
             if (!ValidateClient(client))
             {
-                return BadRequest(ResponseModel<Client>.New((int)HttpStatusCode.BadRequest, $"The client has invalid fields.", client));
+                return BadRequest(null);
             }
 
-            var response = await manager.PushClient(client);
+            await manager.PushClient(client);
 
-            string message = response ? "The client has been replaced." : "Client not found. It was inserted";
-
-            return Ok(ResponseModel<Client>.New((int)HttpStatusCode.OK, message, client));
+            return Ok(client);
         }
 
         #region Private
